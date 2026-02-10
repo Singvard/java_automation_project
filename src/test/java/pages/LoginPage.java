@@ -1,6 +1,9 @@
 package pages;
 
+import com.codeborne.selenide.WebDriverRunner;
+import config.WebDriverConfig;
 import elements.SignupForm;
+import models.Account;
 
 public class LoginPage {
     private static final String URL = "/login";
@@ -11,13 +14,14 @@ public class LoginPage {
     }
 
     public LoginPage verifyPageIsLoaded() {
+        WebDriverRunner.url().equals(WebDriverConfig.BASE_URL + URL);
         signupForm.verifyFormIsLoaded();
         return this;
     }
 
-    public SignupPage register(String name, String email) {
-        signupForm.inputName(name)
-                .inputEmail(email)
+    public SignupPage register(Account account) {
+        signupForm.inputName(account.name())
+                .inputEmail(account.email())
                 .signup();
         return new SignupPage();
     }

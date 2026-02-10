@@ -1,20 +1,33 @@
 package tests;
 
-import net.datafaker.Faker;
+import models.Account;
 import org.junit.jupiter.api.Test;
-import pages.HomePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pages.NoAuthHomePage;
 
 class MyTest extends BaseTest {
-
-    private static final Faker faker = new Faker();
+    private static final Logger log = LoggerFactory.getLogger(MyTest.class);
 
     @Test
     void testSuccessfulRegistration() {
-        new HomePage().open()
+        var account = Account.createFullySubscribedRandomAccount();
+        log.info("email: {}, password: {}", account.email(), account.password());
+        new NoAuthHomePage().open()
                 .verifyPageIsLoaded()
                 .goToLoginPage()
                 .verifyPageIsLoaded()
-                .register(faker.credentials().username(), faker.internet().emailAddress());
+                .register(account)
+                .verifyPageIsLoaded()
+                .createAccount(account)
+                .verifyPageIsLoaded()
+                .clickContinue()
+                .verifyPageIsLoaded()
+                .verifyLogin(account.name())
+                .deleteAccount()
+                .verifyPageIsLoaded()
+                .clickContinue()
+                .verifyPageIsLoaded();
     }
 
 }

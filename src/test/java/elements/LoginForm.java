@@ -1,17 +1,17 @@
 package elements;
 
-import com.codeborne.selenide.Selectors;
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import models.Country;
 import models.Title;
-import org.assertj.core.api.Assertions;
 
 public class LoginForm {
     private static final SelenideElement LOGIN_FORM = Selenide.$(".login-form");
-    private static final SelenideElement ACCOUNT_INFO = Selenide.$(".login-form h2")
-            .$(Selectors.byText("Enter Account Information"));
-    private static final SelenideElement ADDRESS_INFO = Selenide.$(".login-form h2")
-            .$(Selectors.byText("Address Information"));
+    private static final SelenideElement ACCOUNT_INFO = Selenide.$$(".login-form h2")
+            .findBy(Condition.text("Enter Account Information"));
+    private static final SelenideElement ADDRESS_INFO = Selenide.$$(".login-form h2")
+            .findBy(Condition.text("Address Information"));
     private static final SelenideElement MR = Selenide.$("#id_gender1");
     private static final SelenideElement MRS = Selenide.$("#id_gender2");
     private static final SelenideElement NAME = Selenide.$("[data-qa='name']");
@@ -35,33 +35,33 @@ public class LoginForm {
     private static final SelenideElement CREATE_ACCOUNT = Selenide.$("[data-qa='create-account']");
 
     public void verifyFormIsLoaded() {
-        Assertions.assertThat(LOGIN_FORM.isDisplayed()).isTrue();
-        Assertions.assertThat(ACCOUNT_INFO.isDisplayed()).isTrue();
-        Assertions.assertThat(ADDRESS_INFO.isDisplayed()).isTrue();
-        Assertions.assertThat(MR.isDisplayed()).isTrue();
-        Assertions.assertThat(MRS.isDisplayed()).isTrue();
-        Assertions.assertThat(NAME.isDisplayed()).isTrue();
-        Assertions.assertThat(EMAIL.isDisplayed()).isTrue();
-        Assertions.assertThat(PASSWORD.isDisplayed()).isTrue();
-        Assertions.assertThat(DAYS.isDisplayed()).isTrue();
-        Assertions.assertThat(MONTHS.isDisplayed()).isTrue();
-        Assertions.assertThat(YEARS.isDisplayed()).isTrue();
-        Assertions.assertThat(NEWSLETTER.isDisplayed()).isTrue();
-        Assertions.assertThat(OPTIN.isDisplayed()).isTrue();
-        Assertions.assertThat(FIRST_NAME.isDisplayed()).isTrue();
-        Assertions.assertThat(LAST_NAME.isDisplayed()).isTrue();
-        Assertions.assertThat(COMPANY.isDisplayed()).isTrue();
-        Assertions.assertThat(ADDRESS.isDisplayed()).isTrue();
-        Assertions.assertThat(ADDRESS2.isDisplayed()).isTrue();
-        Assertions.assertThat(COUNTRY.isDisplayed()).isTrue();
-        Assertions.assertThat(STATE.isDisplayed()).isTrue();
-        Assertions.assertThat(CITY.isDisplayed()).isTrue();
-        Assertions.assertThat(ZIPCODE.isDisplayed()).isTrue();
-        Assertions.assertThat(MOBILE_NUMBER.isDisplayed()).isTrue();
-        Assertions.assertThat(CREATE_ACCOUNT.isDisplayed()).isTrue();
+        LOGIN_FORM.shouldBe(Condition.visible);
+        ACCOUNT_INFO.shouldBe(Condition.visible);
+        ADDRESS_INFO.shouldBe(Condition.visible);
+        MR.shouldBe(Condition.visible);
+        MRS.shouldBe(Condition.visible);
+        NAME.shouldBe(Condition.visible);
+        EMAIL.shouldBe(Condition.visible);
+        PASSWORD.shouldBe(Condition.visible);
+        DAYS.shouldBe(Condition.visible);
+        MONTHS.shouldBe(Condition.visible);
+        YEARS.shouldBe(Condition.visible);
+        NEWSLETTER.shouldBe(Condition.visible);
+        OPTIN.shouldBe(Condition.visible);
+        FIRST_NAME.shouldBe(Condition.visible);
+        LAST_NAME.shouldBe(Condition.visible);
+        COMPANY.shouldBe(Condition.visible);
+        ADDRESS.shouldBe(Condition.visible);
+        ADDRESS2.shouldBe(Condition.visible);
+        COUNTRY.shouldBe(Condition.visible);
+        STATE.shouldBe(Condition.visible);
+        CITY.shouldBe(Condition.visible);
+        ZIPCODE.shouldBe(Condition.visible);
+        MOBILE_NUMBER.shouldBe(Condition.visible);
+        CREATE_ACCOUNT.shouldBe(Condition.visible);
     }
 
-    public LoginForm fillTitle (Title title) {
+    public LoginForm fillTitle(Title title) {
         switch (title) {
             case MR -> MR.click();
             case MRS -> MRS.click();
@@ -69,35 +69,35 @@ public class LoginForm {
         return this;
     }
 
-    public LoginForm fillName (String name) {
-        NAME.setValue(name);
+    public LoginForm fillName(String name) {
+        if (!NAME.val().equals(name)) NAME.setValue(name);
         return this;
     }
 
-    public LoginForm fillEmail (String email) {
-        EMAIL.setValue(email);
+    public LoginForm fillEmail(String email) {
+        if (!EMAIL.val().equals(email)) EMAIL.setValue(email);
         return this;
     }
 
-    public LoginForm fillPassword (String password) {
+    public LoginForm fillPassword(String password) {
         PASSWORD.setValue(password);
         return this;
     }
 
-    public LoginForm setDateOfBirth (int day, String month, int year) {
+    public LoginForm setDateOfBirth(int day, String month, int year) {
         DAYS.selectOption(String.valueOf(day));
         MONTHS.selectOption(month);
         YEARS.selectOption(String.valueOf(year));
         return this;
     }
 
-    public LoginForm signUpForNewsletter() {
-        NEWSLETTER.click();
+    public LoginForm signUpForNewsletter(boolean sign) {
+        if (sign) NEWSLETTER.click();
         return this;
     }
 
-    public LoginForm signUpForPartners() {
-        OPTIN.click();
+    public LoginForm signUpForPartners(boolean sign) {
+        if (sign) OPTIN.click();
         return this;
     }
 
@@ -126,8 +126,8 @@ public class LoginForm {
         return this;
     }
 
-    public LoginForm setCountry(String country) {
-        COUNTRY.selectOption(country);
+    public LoginForm setCountry(Country country) {
+        COUNTRY.selectOption(country.getName());
         return this;
     }
 
@@ -137,7 +137,7 @@ public class LoginForm {
     }
 
     public LoginForm fillCity(String city) {
-        STATE.setValue(city);
+        CITY.setValue(city);
         return this;
     }
 

@@ -1,39 +1,28 @@
 package pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import elements.ShopMenu;
-import org.assertj.core.api.Assertions;
+import com.codeborne.selenide.WebDriverRunner;
+import config.WebDriverConfig;
+import io.qameta.allure.Step;
 
-public class HomePage {
-    private static final String URL = "/";
+public abstract class HomePage {
+    protected static final String URL = "/";
     private static final SelenideElement CAROUSEL = Selenide.$("#slider-carousel");
 
-    private final ShopMenu shopMenu;
-
-    public HomePage() {
-        this.shopMenu = new ShopMenu();
+    protected void verifyPageLoad() {
+        verifyPageAddress();
+        verifyCarouselVisibility();
     }
 
-    public HomePage open() {
-        Selenide.open(URL);
-        return this;
+    @Step("Проверить адрес страницы.")
+    private void verifyPageAddress() {
+        WebDriverRunner.url().equals(WebDriverConfig.BASE_URL + URL);
     }
 
-    public HomePage verifyPageIsLoaded() {
-        shopMenu.verifyVisibility();
-        return verifyCarouselVisibility();
-    }
-
-    public HomePage verifyCarouselVisibility() {
-        Assertions.assertThat(CAROUSEL.isDisplayed())
-                .as("Карусель слайдов должна отображаться!")
-                .isTrue();
-        return this;
-    }
-
-    public LoginPage goToLoginPage() {
-        shopMenu.login();
-        return new LoginPage();
+    @Step("Проверить отображение карусели слайдов.")
+    private void verifyCarouselVisibility() {
+        CAROUSEL.shouldBe(Condition.visible);
     }
 }

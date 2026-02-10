@@ -1,7 +1,9 @@
 package elements;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.assertj.core.api.Assertions;
 
 public class SignupForm {
@@ -12,49 +14,40 @@ public class SignupForm {
     public static final SelenideElement SIGNUP_BUTTON = Selenide.$("[data-qa='signup-button']");
 
     public void verifyFormIsLoaded() {
-        Assertions.assertThat(FORM.isDisplayed())
-                .as("Форма регистрации должна быть видима!")
-                .isTrue();
+        FORM.shouldBe(Condition.visible);
 
-        Assertions.assertThat(FORM_HEADER.isDisplayed())
-                .as("Заголовок формы должен быть видимым!")
-                .isTrue();
+        FORM_HEADER.shouldBe(Condition.visible);
 
-        Assertions.assertThat(FORM_HEADER.getText())
+        Assertions.assertThat(FORM_HEADER.text())
                 .as("Текст заголовка должен соответствовать ожиданию!")
                 .isEqualTo("New User Signup!");
 
-        Assertions.assertThat(NAME_INPUT.isDisplayed())
-                .as("Поле ввода логина должно быть видимым!")
-                .isTrue();
+        NAME_INPUT.shouldBe(Condition.visible);
 
         Assertions.assertThat(NAME_INPUT.getAttribute("placeholder"))
                 .as("Поле должно иметь соответствующий плейсхолдер!")
                 .isEqualTo("Name");
 
-        Assertions.assertThat(EMAIL_INPUT.isDisplayed())
-                .as("Поле ввода email должно быть видимым")
-                .isTrue();
+        EMAIL_INPUT.shouldBe(Condition.visible);
 
         Assertions.assertThat(EMAIL_INPUT.getAttribute("placeholder"))
                 .as("Поле должно иметь соответствующий плейсхолдер!")
                 .isEqualTo("Email Address");
 
-        Assertions.assertThat(SIGNUP_BUTTON.isDisplayed())
-                .as("Кнопка регистрации должна быть видимой")
-                .isTrue();
+        SIGNUP_BUTTON.shouldBe(Condition.visible);
 
-        Assertions.assertThat(SIGNUP_BUTTON.getText())
+        Assertions.assertThat(SIGNUP_BUTTON.text())
                 .as("Надпись на кнопке регистрации должна соответствовать ожиданию!")
                 .isEqualTo("Signup");
     }
 
+    @Step("Ввести имя {name}")
     public SignupForm inputName(String name) {
         NAME_INPUT.setValue(name);
         return this;
     }
 
-
+    @Step("Ввести имя {email}")
     public SignupForm inputEmail(String email) {
         EMAIL_INPUT.setValue(email);
         return this;

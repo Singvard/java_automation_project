@@ -3,6 +3,7 @@ package pages;
 import com.codeborne.selenide.Selenide;
 import elements.NoAuthShopMenu;
 import io.qameta.allure.Step;
+import utils.CookieBannerHandler;
 
 public class NoAuthHomePage extends HomePage {
     private final NoAuthShopMenu shopMenu;
@@ -14,6 +15,7 @@ public class NoAuthHomePage extends HomePage {
     @Step("Открыть домашнюю страницу.")
     public NoAuthHomePage open() {
         Selenide.open(URL);
+        CookieBannerHandler.handleCookieBanner();
         return this;
     }
 

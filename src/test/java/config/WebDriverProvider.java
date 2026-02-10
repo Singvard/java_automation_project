@@ -2,7 +2,6 @@ package config;
 
 import com.codeborne.selenide.Configuration;
 import org.aeonbits.owner.ConfigFactory;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.Map;
@@ -30,17 +29,6 @@ public class WebDriverProvider {
         Configuration.browserSize = config.browserSize();
         Configuration.baseUrl = config.baseUrl();
         Configuration.timeout = config.timeout();
-
-        var options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        options.addArguments("--disable-popup-blocking");
-        options.addArguments("--disable-save-password-bubble");
-        options.addArguments("--disable-blink-features=AutomationControlled");
-        options.addArguments("--disable-features=CookieControls");
-        options.setExperimentalOption("excludeSwitches",
-                new String[]{"enable-automation"});
-        options.setExperimentalOption("useAutomationExtension", false);
-        Configuration.browserCapabilities = options;
 
         if (config.isRemote()) {
             Configuration.remote = getRemoteUrl();

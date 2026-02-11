@@ -1,10 +1,10 @@
 package elements;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Step;
 import org.assertj.core.api.Assertions;
+
+import java.time.Duration;
 
 public class SignupForm {
     public static final SelenideElement FORM = Selenide.$(".signup-form");
@@ -12,6 +12,7 @@ public class SignupForm {
     public static final SelenideElement NAME_INPUT = Selenide.$("[data-qa='signup-name']");
     public static final SelenideElement EMAIL_INPUT = Selenide.$("[data-qa='signup-email']");
     public static final SelenideElement SIGNUP_BUTTON = Selenide.$("[data-qa='signup-button']");
+    public static final SelenideElement ERROR_MESSAGE = Selenide.$(".signup-form p[style*='color: red']");
 
     public void verifyFormIsLoaded() {
         FORM.shouldBe(Condition.visible);
@@ -53,8 +54,14 @@ public class SignupForm {
         return this;
     }
 
-
+    @Step("Кликнуть кнопку Signup")
     public void signup() {
         SIGNUP_BUTTON.click();
+    }
+
+    @Step("Проверить появление ошибки с текстом: {text}")
+    public void verifyErrorMessage(String text) {
+        ERROR_MESSAGE.shouldBe(Condition.visible, Duration.ofSeconds(10))
+                .shouldHave(Condition.text(text));
     }
 }

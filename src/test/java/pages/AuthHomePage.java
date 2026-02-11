@@ -20,6 +20,11 @@ public class AuthHomePage extends HomePage {
         return this;
     }
 
+    public LoginPage logout() {
+        shopMenu.clickLogout();
+        return new LoginPage();
+    }
+
     public DeletedAccountPage deleteAccount() {
         shopMenu.clickDeleteAccount();
         return new DeletedAccountPage();

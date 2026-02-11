@@ -26,15 +26,17 @@ public record Account(
         String zipcode,
         String mobilePhone
 ) {
-    public static Account createRandomAccount(boolean isSignedUpForNewsletter, boolean isSignUpForPartners) {
+    public static Account withEmailAndPasswordAndSubscriptions(
+            String email, String password, boolean isSignedUpForNewsletter, boolean isSignUpForPartners
+    ) {
         var faker = new Faker();
         var name = faker.name();
 
         return new Account(
                 faker.options().option(Title.class),
                 name.name(),
-                faker.internet().safeEmailAddress(),
-                faker.credentials().password(),
+                email,
+                password,
                 faker.number().numberBetween(1, 32),
                 faker.timeAndDate()
                         .birthday()
@@ -56,7 +58,25 @@ public record Account(
         );
     }
 
-    public static Account createFullySubscribedRandomAccount() {
-        return createRandomAccount(true, true);
+    public static Account withEmailAndSubscriptions(String email, boolean isSignedUpForNewsletter, boolean isSignUpForPartners) {
+        var faker = new Faker();
+
+        return withEmailAndPasswordAndSubscriptions(
+                email, faker.credentials().password(), isSignedUpForNewsletter, isSignUpForPartners
+        );
+    }
+
+    public static Account withSubscriptions(boolean isSignedUpForNewsletter, boolean isSignUpForPartners) {
+        var faker = new Faker();
+
+        return withEmailAndSubscriptions(
+                faker.internet().safeEmailAddress(),
+                isSignedUpForNewsletter,
+                isSignUpForPartners
+        );
+    }
+
+    public static Account fullySubscribedRandom() {
+        return withSubscriptions(true, true);
     }
 }

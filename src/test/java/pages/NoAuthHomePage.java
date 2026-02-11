@@ -15,6 +15,11 @@ public class NoAuthHomePage extends HomePage {
     @Step("Открыть домашнюю страницу.")
     public NoAuthHomePage open() {
         Selenide.open(URL);
+        return this;
+    }
+
+    @Step("Принять куки.")
+    public NoAuthHomePage consentCookies() {
         CookieBannerHandler.handleCookieBanner();
         return this;
     }

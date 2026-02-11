@@ -8,6 +8,7 @@ import io.qameta.allure.Step;
 import org.assertj.core.api.Assertions;
 
 public class AuthShopMenu implements ShopMenu {
+    private static final SelenideElement LOGOUT = Selenide.$(Selectors.byText("Logout"));
     private static final SelenideElement DELETE_ACCOUNT = Selenide.$(Selectors.byText("Delete Account"));
     private static final SelenideElement LOGGED_IN_AS = Selenide.$(Selectors.withText("Logged in as"));
     private static final int NUMBER_OF_ITEMS = 10;
@@ -28,11 +29,16 @@ public class AuthShopMenu implements ShopMenu {
         LOGGED_IN_AS.shouldBe(Condition.visible);
     }
 
-    @Step("Проверить, что видна надпись 'Logged in as {name}'")
+    @Step("Проверить, что видна надпись 'Logged in as {name}'.")
     public void verifyLoggedText(String name) {
         Assertions.assertThat(LOGGED_IN_AS.text())
                 .as("")
                 .isEqualToIgnoringNewLines("Logged in as " + name);
+    }
+
+    @Step("Кликнуть 'Logout'.")
+    public void clickLogout() {
+        LOGOUT.click();
     }
 
     @Step("Кликнуть 'Delete Account'.")

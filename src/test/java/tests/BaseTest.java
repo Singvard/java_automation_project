@@ -1,6 +1,5 @@
 package tests;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import config.WebDriverProvider;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import utils.Attach;
-import utils.CookieBannerHandler;
 
 public abstract class BaseTest {
     private static WebDriverProvider provider;

@@ -2,15 +2,15 @@ package pages;
 
 import com.codeborne.selenide.WebDriverRunner;
 import config.WebDriverConfig;
-import elements.LoginForm;
+import elements.RegisterForm;
 import models.Account;
 
 public class SignupPage {
     private static final String URL = "/signup";
-    private final LoginForm loginForm;
+    private final RegisterForm loginForm;
 
     public SignupPage() {
-        this.loginForm = new LoginForm();
+        this.loginForm = new RegisterForm();
     }
 
     public SignupPage verifyPageIsLoaded() {

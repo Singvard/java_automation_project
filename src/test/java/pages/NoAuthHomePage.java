@@ -34,4 +34,9 @@ public class NoAuthHomePage extends HomePage {
         shopMenu.login();
         return new LoginPage();
     }
+
+    public ContactUsPage goToContactUsPage() {
+        shopMenu.clickContactUsPage();
+        return new ContactUsPage();
+    }
 }

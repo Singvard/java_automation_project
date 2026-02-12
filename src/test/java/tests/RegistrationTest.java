@@ -42,5 +42,4 @@ class RegistrationTest extends BaseTest {
                 .registerWithError(account)
                 .verifyEmailAlreadyExistsError();
     }
-
 }

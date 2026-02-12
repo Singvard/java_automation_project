@@ -1,15 +1,15 @@
 package pages;
 
-import com.codeborne.selenide.*;
-import config.WebDriverConfig;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selectors;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import models.Message;
 import org.assertj.core.api.Assertions;
 
-import java.util.Objects;
-
-public class ContactUsPage {
-    private static final String URL = "/";
+public class ContactUsPage implements PageUrlVerifier {
+    private static final String URL = "/contact_us";
     private static final SelenideElement HEADER = Selenide.$(".contact-form h2");
     private static final SelenideElement NAME_INPUT = Selenide.$("[data-qa='name']");
     private static final SelenideElement EMAIL_INPUT = Selenide.$("[data-qa='email']");
@@ -21,9 +21,7 @@ public class ContactUsPage {
 
     @Step("Проверить, что страница загрузилась.")
     public ContactUsPage verifyPageLoad() {
-        Selenide.Wait().until(driver ->
-                Objects.equals(WebDriverRunner.url(), WebDriverConfig.BASE_URL + URL)
-        );
+        verifyPageUrl(URL);
 
         Assertions.assertThat(HEADER.shouldBe(Condition.visible).text())
                 .as("Заголовок страницы должен быть 'Get In Touch'")

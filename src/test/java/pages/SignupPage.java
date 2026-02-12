@@ -1,14 +1,9 @@
 package pages;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
-import config.WebDriverConfig;
 import elements.RegisterForm;
 import models.Account;
 
-import java.util.Objects;
-
-public class SignupPage {
+public class SignupPage implements PageUrlVerifier {
     private static final String URL = "/signup";
     private final RegisterForm loginForm;
 
@@ -17,9 +12,7 @@ public class SignupPage {
     }
 
     public SignupPage verifyPageIsLoaded() {
-        Selenide.Wait().until(driver ->
-                Objects.equals(WebDriverRunner.url(), WebDriverConfig.BASE_URL + URL)
-        );
+        verifyPageUrl(URL);
 
         loginForm.verifyFormIsLoaded();
         return this;

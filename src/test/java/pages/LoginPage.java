@@ -1,15 +1,10 @@
 package pages;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
-import config.WebDriverConfig;
 import elements.LoginForm;
 import elements.SignupForm;
 import models.Account;
 
-import java.util.Objects;
-
-public class LoginPage {
+public class LoginPage implements PageUrlVerifier {
     private static final String URL = "/login";
     private static final String EMAIL_OR_PASSWORD_INCORRECT_ERROR = "Your email or password is incorrect!";
     private static final String EMAIL_ALREADY_EXISTS_ERROR = "Email Address already exist!";
@@ -22,10 +17,7 @@ public class LoginPage {
     }
 
     public LoginPage verifyPageIsLoaded() {
-        Selenide.Wait().until(driver ->
-                Objects.equals(WebDriverRunner.url(), WebDriverConfig.BASE_URL + URL)
-        );
-
+        verifyPageUrl(URL);
         loginForm.verifyFormIsLoaded();
         signupForm.verifyFormIsLoaded();
         return this;

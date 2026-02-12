@@ -8,6 +8,8 @@ import config.WebDriverConfig;
 import io.qameta.allure.Step;
 import org.assertj.core.api.Assertions;
 
+import java.util.Objects;
+
 
 public class AccountCreatedPage {
     private static final String URL = "/account_created";
@@ -17,7 +19,10 @@ public class AccountCreatedPage {
 
     @Step("Проверить загрузку страницу.")
     public AccountCreatedPage verifyPageIsLoaded() {
-        WebDriverRunner.url().equals(WebDriverConfig.BASE_URL + URL);
+        Selenide.Wait().until(driver ->
+                Objects.equals(WebDriverRunner.url(), WebDriverConfig.BASE_URL + URL)
+        );
+
         SUCCESS_HEADER.shouldBe(Condition.visible);
         Assertions.assertThat(SUCCESS_HEADER.text())
                 .as("Текст надписи не совпадает с ожидаемым!")

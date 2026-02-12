@@ -8,6 +8,8 @@ import config.WebDriverConfig;
 import io.qameta.allure.Step;
 import org.assertj.core.api.Assertions;
 
+import java.util.Objects;
+
 public class DeletedAccountPage {
     private static final String URL = "/delete_account";
     private static final SelenideElement ACCOUNT_DELETED = Selenide.$("[data-qa='account-deleted']");
@@ -16,7 +18,9 @@ public class DeletedAccountPage {
 
     @Step("Проверить загрузку страницу.")
     public DeletedAccountPage verifyPageIsLoaded() {
-        WebDriverRunner.url().equals(WebDriverConfig.BASE_URL + URL);
+        Selenide.Wait().until(driver ->
+                Objects.equals(WebDriverRunner.url(), WebDriverConfig.BASE_URL + URL)
+        );
         ACCOUNT_DELETED.shouldBe(Condition.visible);
         Assertions.assertThat(ACCOUNT_DELETED.text())
                 .as("Текст надписи не совпадает с ожидаемым!")

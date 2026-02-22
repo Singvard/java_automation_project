@@ -37,19 +37,37 @@ dependencies {
     val slf4jVersion = "2.0.17"
 
 
-    testImplementation("io.qameta.allure:allure-selenide:$allureSelenideVersion")
-    testImplementation("org.assertj:assertj-core:$assertjCoreVersion")
-    testImplementation("net.datafaker:datafaker:$datafakerVersion")
-    testImplementation("tools.jackson.core:jackson-databind:$jacksonVersion")
+    testImplementation("io.qameta.allure:allure-selenide:${allureSelenideVersion}")
+    testImplementation("org.assertj:assertj-core:${assertjCoreVersion}")
+    testImplementation("net.datafaker:datafaker:${datafakerVersion}")
+    testImplementation("tools.jackson.core:jackson-databind:${jacksonVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter:${junitVersion}")
-    testImplementation("ch.qos.logback:logback-classic:$logbackVersion")
-    testImplementation("org.aeonbits.owner:owner:$ownerVersion")
-    testImplementation("com.codeborne:selenide:$selenideVersion")
+    testImplementation("ch.qos.logback:logback-classic:${logbackVersion}")
+    testImplementation("org.aeonbits.owner:owner:${ownerVersion}")
+    testImplementation("com.codeborne:selenide:${selenideVersion}")
     testImplementation("org.slf4j:slf4j-api:${slf4jVersion}")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.test {
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType<Test> {
+    systemProperty("file.encoding", "UTF-8")
+
+    val properties = mapOf(
+        "config.file" to System.getProperty("config.file"),
+        "remoteUsername" to System.getProperty("remoteUsername"),
+        "remotePassword" to System.getProperty("remotePassword")
+    )
+
+    properties.forEach { (key, value) ->
+        if (value != null) {
+            systemProperty(key, value)
+        }
+    }
+
     useJUnitPlatform()
 
     testLogging {

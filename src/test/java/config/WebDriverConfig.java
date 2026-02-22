@@ -15,11 +15,11 @@ public interface WebDriverConfig extends Config {
     String BASE_URL = "https://automationexercise.com";
     String TIMEOUT = "10000";
 
-    @Key("browserName")
+    @Key("browser.name")
     @DefaultValue(CHROME)
     Browser browserName();
 
-    @Key("browserVersion")
+    @Key("browser.version")
     String browserVersion();
 
     @Key("browser.size")
